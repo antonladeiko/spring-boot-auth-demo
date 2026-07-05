@@ -1,5 +1,6 @@
 package com.mustgen.spring_boot_auth_demo.configuration;
 
+import com.mustgen.spring_boot_auth_demo.constants.WebSecurityConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,8 +21,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/register").permitAll()
-                    .requestMatchers("/h2-console/**").permitAll()
+                    .requestMatchers(WebSecurityConstants.REGISTRATION_URL).permitAll()
+                    .requestMatchers(WebSecurityConstants.H2_CONSOLE_PATH).permitAll()
                     .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(
@@ -32,10 +33,10 @@ public class SecurityConfig {
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                 .logout(logout -> logout
-                    .logoutUrl("/api/auth/logout")
+                    .logoutUrl(WebSecurityConstants.LOGOUT_PATH_PATTERN)
                     .logoutSuccessUrl("/")
                     .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
+                    .deleteCookies(WebSecurityConstants.LOGIN_COOKIE)
                 )
                 .build();
     }

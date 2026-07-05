@@ -9,7 +9,6 @@ import java.util.Optional;
 public class SpringSecurityAuditorAware implements AuditorAware<String> {
 
     @Override
-    // TODO: refactor
     public Optional<String> getCurrentAuditor() {
         var authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
@@ -17,7 +16,7 @@ public class SpringSecurityAuditorAware implements AuditorAware<String> {
         return switch (authentication) {
             case Authentication auth when auth.getPrincipal() instanceof AppUserDetails userDetails ->
                     Optional.of(userDetails.getUsername());
-            case null, default -> Optional.empty();
+            case null, default -> Optional.of("SELF_REGISTRATION");
         };
     }
 

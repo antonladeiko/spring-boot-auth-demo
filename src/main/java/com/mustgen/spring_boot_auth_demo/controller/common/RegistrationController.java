@@ -2,7 +2,7 @@ package com.mustgen.spring_boot_auth_demo.controller.common;
 
 import com.mustgen.spring_boot_auth_demo.model.dto.request.RegistrationUserRequestDto;
 import com.mustgen.spring_boot_auth_demo.model.dto.response.RegistrationUserResponseDto;
-import com.mustgen.spring_boot_auth_demo.service.UserService;
+import com.mustgen.spring_boot_auth_demo.service.RegistrationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth/register")
 public class RegistrationController {
 
-    private final UserService userService;
+    private final RegistrationService registrationService;
 
     @PostMapping
     public ResponseEntity<RegistrationUserResponseDto> register(
         @RequestBody @Valid RegistrationUserRequestDto request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(userService.register(request));
+                .body(registrationService.register(request));
     }
 
 }
